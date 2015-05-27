@@ -10,9 +10,7 @@ netmask {{ item.netmask }}
 {% if item.gateway is defined %}
 gateway {{ item.gateway }}
 {% endif %}
-{% if item.ports is defined %}        
-bridge_ports {{ item.ports|join(' ') }}
-{% endif %}
+bridge_ports {{ item.ports|default(['none'])|join(' ') }}
 {% if item.stp is defined %}        
 bridge_stp {{ item.stp }}
 {% endif %}
@@ -20,9 +18,7 @@ bridge_stp {{ item.stp }}
 
 {% if item.bootproto == 'dhcp' or item.bootproto == 'manual' %}
 iface {{ item.device }}  inet {{ item.bootproto }}
-{% if item.ports is defined %}        
-bridge_ports {{ item.ports | join(" ") }}
-{% endif %}
+bridge_ports {{ item.ports|default(['none'])|join(' ') }}
 {% if item.stp is defined %}        
 bridge_stp {{ item.stp }}
 bridge_maxwait 0
